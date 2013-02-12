@@ -91,6 +91,9 @@ template "/etc/znc/configs/znc.conf" do
   mode "0600"
   variables(:users => users)
   notifies :restart, "service[znc]"
+
+  # ZNC overwrites the config file with updated info every now and then, so we have to remove the file before running chef if we want to update it.
+  not_if { ::File.exists("/etc/znc/configs/znc.conf") } 
 end
 template "/etc/znc/moddata/identfile/.registry" do
   source "identfile-registry.erb"
