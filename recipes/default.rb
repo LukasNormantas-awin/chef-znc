@@ -65,10 +65,24 @@ execute "force-save-znc-config" do
   action :run
 end
 
-# Generate ZNC config file.
+# Prepare log directories for each user.
 users = node["znc"]["users"].map do |username|
   data_bag_item("users", username)
 end
+users.each do |user|
+  ["/etc/znc/users/#{user["id"]}", "/etc/znc/users/#{user["id"]}/moddata", "/etc/znc/users/#{user["id"]}/moddata/log"].each do |directory_name|
+    directory directory_name do
+      owner node["znc"]["user"]
+      group user["groups"].first
+      mode "0750"
+    end
+  end
+  link "/home/#{user["id"]}/znclogs" do
+    to "/etc/znc/users/#{user["id"]}/moddata/log"
+  end
+end
+
+# Generate ZNC config file.
 
 template "/etc/znc/configs/znc.conf" do
   source "znc.conf.erb"
