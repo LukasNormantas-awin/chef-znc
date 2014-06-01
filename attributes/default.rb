@@ -1,6 +1,6 @@
 default["znc"]["version"] = "1.0"
 default["znc"]["checksum"] = "50e6e3aacb67cf0a63d77f5031d4b75264cee294"
-default["znc"]["url"] = "http://znc.in/releases/znc-#{node["znc"]["version"]}.tar.gz"
+default["znc"]["url"] = "http://znc.in/releases/old/znc-#{node["znc"]["version"]}.tar.gz"
 
 default["znc"]["user"] = "znc"
 default["znc"]["group"] = "znc"
