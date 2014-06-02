@@ -19,7 +19,13 @@
 
 include_recipe "build-essential"
 
-%w(libssl-dev libperl-dev pkg-config libc-ares-dev).each do |package_name|
+if platform? ["centos", "redhat"]
+  deps = %w(openssl-devel perl-devel pkgconfig c-ares-devel)
+else
+  deps = %w(libssl-dev libperl-dev pkg-config libc-ares-dev)
+end
+
+deps.each do |package_name|
   package package_name do
     action :install
   end
