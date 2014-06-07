@@ -21,7 +21,11 @@ include_recipe "runit"
 include_recipe "oidentd"
 
 # Install ZNC.
-include_recipe "znc::source"
+if node["znc"]["package"]
+  include_recipe "znc::package"
+else
+  include_recipe "znc::source"
+end
 
 # Configure the znc user and group.
 group node["znc"]["group"] do
